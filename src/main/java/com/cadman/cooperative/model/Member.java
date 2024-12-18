@@ -69,7 +69,7 @@ public class Member {
         this.email = email;
     }
 
-    private String getPassword() {
+    public String getPassword() {
         return password;
     }
 

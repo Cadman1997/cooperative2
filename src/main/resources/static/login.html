@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Login</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+<h1>Member Login</h1>
+<form id="loginForm">
+    <label for="memberId">Membership ID:</label>
+    <input type="text" id="memberId" required><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" required><br>
+
+    <button type="submit">Login</button>
+</form>
+
+<p id="responseMessage"></p>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const memberId = document.getElementById("memberId").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch("/api/members/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ memberId, password })
+        });
+
+        if (response.ok) {
+            const message = await response.text();
+            document.getElementById("responseMessage").innerText = message;
+            document.getElementById("responseMessage").style.color = "green";
+        } else {
+            const errorText = await response.text();
+            document.getElementById("responseMessage").innerText = `Error: ${errorText}`;
+            document.getElementById("responseMessage").style.color = "red";
+        }
+    });
+</script>
+</body>
+</html>
